@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="./assets/img/logo.svg">
+<title>Leaderboard — TonyQuiz</title>
+<meta name="description" content="Track the top challengers and high scores in TonyQuiz.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css" />
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    font-family: 'Exo 2', sans-serif;
+  }
+  th, td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+  }
+  th {
+    font-family: 'Orbitron', monospace;
+    color: #00ffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.1rem;
+    border-bottom-width: 2px;
+  }
+  tr:nth-child(even) {
+    background-color: rgba(0, 255, 255, 0.03);
+  }
+  tr:hover {
+    background-color: rgba(0, 255, 255, 0.1);
+  }
+  td:first-child {
+    font-weight: 700;
+    color: #ff00ff;
+  }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="logo" href="index.html" aria-label="Home">🧠 TonyQuiz</a>
+    <div class="menu" data-nav-menu>
+      <a href="index.html">Home</a>
+      <a href="game.html">Tony's Challenge</a>
+      <a href="leaderboard.html" style="opacity:1;font-weight:800">Leaderboard</a>
+      <a href="about.html">About</a>
+      <a href="blog.html">Blog</a>
+    </div>
+    <div class="right"><a class="btn ghost" data-theme-toggle>Theme</a><a class="btn" href="game.html">Start TonyQuiz</a></div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container reveal">
+    <h1>Leaderboard</h1>
+    <p>Track the top challengers and high scores in TonyQuiz.</p>
+  </div>
+</header>
+
+<section class="section container">
+  <div class="card">
+    <div id="lb" style="overflow-x: auto;">Loading…</div>
+  </div>
+</section>
+
+<script>
+(function(){
+  const el = document.getElementById('lb');
+  const savedState = JSON.parse(localStorage.getItem('tonyQuizState') || '{}');
+  const scores = savedState.totalScore || 0;
+  const accuracy = savedState.totalQuestions > 0 ? Math.round((savedState.correctAnswers / savedState.totalQuestions) * 100) : 0;
+
+  // This is a simplified leaderboard. A real one would store multiple users.
+  // For this demo, we'll just show the current user's stats as a "leaderboard".
+  if (scores === 0) {
+    el.innerHTML = '<p>No scores recorded yet. Complete a quiz to establish your rank!</p>';
+    return;
+  }
+
+  const rows = `
+    <tr>
+      <td>#1</td>
+      <td>PLAYER_01</td>
+      <td>${scores}</td>
+      <td>${accuracy}%</td>
+      <td>${savedState.completedCategories || 0}</td>
+    </tr>`;
+
+  el.innerHTML=`<table>
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Player</th>
+        <th>Total Score</th>
+        <th>Accuracy</th>
+        <th>Categories Done</th>
+      </tr>
+    </thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+})();
+</script>
+
+<footer class="footer">
+  <div class="container footer-content">
+    <div>© 2025 TonyQuiz. All rights reserved.</div>
+    <div class="footer-badge">Tony's Knowledge • Responsive • Fun</div>
+  </div>
+</footer><script src="assets/js/main.js"></script></body></html>
